@@ -1,6 +1,6 @@
 # TicketStore
 
-Solution for handling tickets for social events.
+Ticketing solution for social events.
 
 ## Docker
 
