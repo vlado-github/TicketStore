@@ -1,27 +1,32 @@
-using Microsoft.EntityFrameworkCore;
-using TicketStore.DAL.DataAccess;
+using JasperFx;
+using JasperFx.CodeGeneration;
+using JasperFx.Events.Daemon;
+using JasperFx.Events.Projections;
+using Marten;
+using TicketStore.DAL.Projections;
+using TicketStore.Domain.DependencyInjection;
 using TicketStore.Domain.EventFeature.Commands;
 using Wolverine;
-using Wolverine.EntityFrameworkCore;
-using Wolverine.Postgresql;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString(nameof(TicketStoreContext));
+var connectionString = builder.Configuration.GetConnectionString("TicketStoreDatabase");
 
 builder.Host.UseWolverine(opts =>
 {
-    opts.PersistMessagesWithPostgresql(connectionString);
-    opts.UseEntityFrameworkCoreTransactions();
-    opts.ApplicationAssembly = typeof(CreateEventCommandHandler).Assembly;
+    opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
+    opts.ApplicationAssembly = typeof(CreateScheduledEventCommandHandler).Assembly;
 });
 
-builder.Services.AddDbContext<TicketStoreContext>(options =>
+builder.Services.AddMarten(opts =>
 {
-    options.UseNpgsql(connectionString);
-}, ServiceLifetime.Singleton); //Wolverine docs says weirdly Singleton
+    opts.Connection(connectionString!);
+    opts.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
+    opts.Projections.AddProjections();
+}).UseLightweightSessions().AddAsyncDaemon(DaemonMode.HotCold);
 
 builder.Services.AddControllers(); 
+builder.Services.AddDomain();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

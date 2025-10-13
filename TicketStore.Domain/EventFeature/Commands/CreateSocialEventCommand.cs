@@ -1,36 +1,36 @@
-using TicketStore.DAL.DataAccess;
-using TicketStore.DAL.Entities;
+using Marten;
+using TicketStore.DAL.Events;
 using TicketStore.Domain.EventFeature.Events;
 using TicketStore.Shared.Enums;
-using Wolverine.Attributes;
 
 namespace TicketStore.Domain.EventFeature.Commands;
 
-public record CreateEventCommand(
+public record CreateSocialEventCommand(
     string Title, 
     EventType Type,
     string Venue,
     DateTimeOffset StartTime,
     DateTimeOffset? EndTime);
 
-public class CreateEventCommandHandler
+public class CreateScheduledEventCommandHandler
 {
-    [Transactional]
-    public static EventCreated Handle(CreateEventCommand command, TicketStoreContext dbContext)
+    public static async Task<SocialEventCreated> Handle(CreateSocialEventCommand command, IDocumentSession session)
     {
-        //todo: use mapster
-        var @event = new Event()
+        var socialEvent = new SocialEvent()
         {
+            Id = Guid.NewGuid(),
             Title = command.Title,
             Type = command.Type,
             Venue = command.Venue,
             StartTime = command.StartTime,
             EndTime = command.EndTime
         };
-        dbContext.Events.Add(@event);
-        return new EventCreated
+        session.Store(socialEvent);
+        await session.SaveChangesAsync();
+        
+        return new SocialEventCreated
         {
-            Id = @event.Id
+            Id = socialEvent.Id
         };
     }
 }
