@@ -1,20 +1,36 @@
 services:
- 
+  api:
+    image: ticketstore.api
+    container_name: ticketstore-api
+    build:
+      context: .
+      dockerfile: TicketStore.API/Dockerfile
+    ports:
+      - "5012:8080"
+    restart: always
+    environment:
+      - TICKETSTORE_DB_CONNECTION=Server=localhost;Port=5432;Database=ticketstore;User Id=postgres;Password=admin;SslMode=Prefer
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - ticketstore-network
+
   db:
     image: postgres
+    container_name: ticketstore-db
     environment:
+      POSTGRES_DB: ticketstore
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
     volumes:
-       - postgres:/data/postgres
+      - postgres:/data/postgres
     ports:
       - "5432:5432"
     networks:
-      - postgres
+      - ticketstore-network
     restart: unless-stopped
  
 networks:
-  postgres:
+  ticketstore-network:
     driver: bridge
 
 volumes:
