@@ -6,6 +6,8 @@ Solution for handling tickets for social events.
 
 ### Prerequisite
 
+Download and install [docker compose](https://docs.docker.com/compose/install/)
+
 ### Run containers
 
 From the repository's root directory, run command in terminal:
