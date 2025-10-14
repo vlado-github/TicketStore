@@ -1,9 +1,21 @@
+using FluentValidation;
 using Marten;
 using TicketStore.Domain.Base;
 using TicketStore.Domain.SocialEventFeature.Schema.Documents;
 using TicketStore.Shared.Enums;
 
 namespace TicketStore.Domain.SocialEventFeature.Commands;
+
+public class CreateSocialEventCommandValidator : AbstractValidator<CreateSocialEventCommand>
+{
+    public CreateSocialEventCommandValidator()
+    {
+        RuleFor(x => x.Title).NotNull().NotEmpty();
+        RuleFor(x => x.Type).NotNull();
+        RuleFor(x => x.Venue).NotNull().NotEmpty();
+        RuleFor(x => x.StartTime).NotNull();
+    }
+}
 
 public record CreateSocialEventCommand(
     string Title, 

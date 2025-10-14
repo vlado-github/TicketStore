@@ -1,11 +1,15 @@
+using FluentValidation.Results;
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events.Daemon;
 using Marten;
+using Serilog;
+using TicketStore.API.Middlewares;
 using TicketStore.Domain.DependencyInjection;
 using TicketStore.Domain.SocialEventFeature.Commands;
 using TicketStore.Domain.SocialEventFeature.Schema.Projections;
 using Wolverine;
+using Wolverine.FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +17,17 @@ var connectionString = builder.Configuration.GetConnectionString("TicketStoreDat
 
 builder.Host.UseWolverine(opts =>
 {
+    opts.UseFluentValidation();
     opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
     opts.ApplicationAssembly = typeof(CreateScheduledEventCommandHandler).Assembly;
 });
+
+Log.Logger = new LoggerConfiguration()     
+    .MinimumLevel.Debug()     
+    .WriteTo.Console()          
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddMarten(opts =>
 {
@@ -24,7 +36,7 @@ builder.Services.AddMarten(opts =>
     opts.Projections.AddSocialEventProjections();
 }).UseLightweightSessions().AddAsyncDaemon(DaemonMode.HotCold);
 
-builder.Services.AddControllers(); 
+builder.Services.AddControllers();
 builder.Services.AddDomain();
 
 // Add services to the container.
@@ -42,6 +54,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 app.Run();
