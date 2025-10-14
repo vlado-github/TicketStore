@@ -7,11 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TicketStore.DAL\TicketStore.DAL.csproj" />
+      <PackageReference Include="Marten" Version="8.13.0" />
+      <PackageReference Include="WolverineFx" Version="4.12.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="WolverineFx" Version="4.12.3" />
+      <Folder Include="SocialEventFeature\Schema\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TicketStore.Shared\TicketStore.Shared.csproj" />
     </ItemGroup>
 
 </Project>

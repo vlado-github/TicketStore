@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.API", "TicketSt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Domain", "TicketStore.Domain\TicketStore.Domain.csproj", "{2C822343-4C50-4534-94B0-1BECDF3E88E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.DAL", "TicketStore.DAL\TicketStore.DAL.csproj", "{1DB1F794-83F0-4604-9F55-9E01F769BA21}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Tests", "TicketStore.Tests\TicketStore.Tests.csproj", "{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Shared", "TicketStore.Shared\TicketStore.Shared.csproj", "{F17FA5C9-F169-4BD5-965C-59F6794C3197}"
@@ -24,10 +22,6 @@ Global
 		{2C822343-4C50-4534-94B0-1BECDF3E88E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C822343-4C50-4534-94B0-1BECDF3E88E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C822343-4C50-4534-94B0-1BECDF3E88E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1DB1F794-83F0-4604-9F55-9E01F769BA21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DB1F794-83F0-4604-9F55-9E01F769BA21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DB1F794-83F0-4604-9F55-9E01F769BA21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DB1F794-83F0-4604-9F55-9E01F769BA21}.Release|Any CPU.Build.0 = Release|Any CPU
 		{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}.Release|Any CPU.ActiveCfg = Release|Any CPU

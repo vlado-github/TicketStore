@@ -1,4 +1,4 @@
-namespace TicketStore.Domain.EventFeature.Events;
+namespace TicketStore.Domain.SocialEventFeature.Events;
 
 public class SocialEventCreated
 {

@@ -1,6 +1,6 @@
 using TicketStore.Shared.Enums;
 
-namespace TicketStore.DAL.Events;
+namespace TicketStore.Domain.SocialEventFeature.Schema.Documents;
 
 public record SocialEvent
 {

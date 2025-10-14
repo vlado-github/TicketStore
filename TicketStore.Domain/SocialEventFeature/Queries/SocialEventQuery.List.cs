@@ -1,7 +1,7 @@
 using Marten.Pagination;
-using TicketStore.DAL.Events;
+using TicketStore.Domain.SocialEventFeature.Schema.Documents;
 
-namespace TicketStore.Domain.EventFeature.Queries;
+namespace TicketStore.Domain.SocialEventFeature.Queries;
 
 public partial class SocialEventQuery
 {

@@ -1,7 +1,7 @@
-using TicketStore.DAL.Events;
+using TicketStore.Domain.SocialEventFeature.Schema.Documents;
 using TicketStore.Shared.Exceptions;
 
-namespace TicketStore.Domain.EventFeature.Queries;
+namespace TicketStore.Domain.SocialEventFeature.Queries;
 
 public partial class SocialEventQuery
 {

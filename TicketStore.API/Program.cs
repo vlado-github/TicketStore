@@ -1,11 +1,10 @@
 using JasperFx;
 using JasperFx.CodeGeneration;
 using JasperFx.Events.Daemon;
-using JasperFx.Events.Projections;
 using Marten;
-using TicketStore.DAL.Projections;
 using TicketStore.Domain.DependencyInjection;
-using TicketStore.Domain.EventFeature.Commands;
+using TicketStore.Domain.SocialEventFeature.Commands;
+using TicketStore.Domain.SocialEventFeature.Schema.Projections;
 using Wolverine;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +21,7 @@ builder.Services.AddMarten(opts =>
 {
     opts.Connection(connectionString!);
     opts.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
-    opts.Projections.AddProjections();
+    opts.Projections.AddSocialEventProjections();
 }).UseLightweightSessions().AddAsyncDaemon(DaemonMode.HotCold);
 
 builder.Services.AddControllers(); 

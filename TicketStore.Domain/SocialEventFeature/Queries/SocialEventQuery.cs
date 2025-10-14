@@ -1,6 +1,6 @@
 using Marten;
 
-namespace TicketStore.Domain.EventFeature.Queries;
+namespace TicketStore.Domain.SocialEventFeature.Queries;
 
 public partial class SocialEventQuery : ISocialEventQuery
 {

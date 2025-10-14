@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using TicketStore.Domain.EventFeature.Queries;
+using TicketStore.Domain.SocialEventFeature.Queries;
 
 namespace TicketStore.Domain.DependencyInjection;
 

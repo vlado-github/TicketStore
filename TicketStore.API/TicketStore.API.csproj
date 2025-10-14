@@ -17,4 +17,8 @@
       <ProjectReference Include="..\TicketStore.Domain\TicketStore.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <InternalsVisibleTo Include="TicketStore.Tests" />
+    </ItemGroup>
+
 </Project>

@@ -1,9 +1,9 @@
 using Marten;
-using TicketStore.DAL.Events;
-using TicketStore.Domain.EventFeature.Events;
+using TicketStore.Domain.Base;
+using TicketStore.Domain.SocialEventFeature.Schema.Documents;
 using TicketStore.Shared.Enums;
 
-namespace TicketStore.Domain.EventFeature.Commands;
+namespace TicketStore.Domain.SocialEventFeature.Commands;
 
 public record CreateSocialEventCommand(
     string Title, 
@@ -14,7 +14,7 @@ public record CreateSocialEventCommand(
 
 public class CreateScheduledEventCommandHandler
 {
-    public static async Task<SocialEventCreated> Handle(CreateSocialEventCommand command, IDocumentSession session)
+    public static async Task<CommandResult> Handle(CreateSocialEventCommand command, IDocumentSession session)
     {
         var socialEvent = new SocialEvent()
         {
@@ -27,10 +27,7 @@ public class CreateScheduledEventCommandHandler
         };
         session.Store(socialEvent);
         await session.SaveChangesAsync();
-        
-        return new SocialEventCreated
-        {
-            Id = socialEvent.Id
-        };
+
+        return new CommandResult(socialEvent.Id);
     }
 }
