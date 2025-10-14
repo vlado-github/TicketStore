@@ -9,6 +9,5 @@ public static class DomainInjection
     public static void AddDomain(this IServiceCollection services)
     {
         services.AddScoped<ISocialEventQuery, SocialEventQuery>();
-        services.AddScoped<CreateScheduledEventCommandHandler>();
     } 
 }
