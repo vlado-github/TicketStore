@@ -13,7 +13,6 @@ WORKDIR /src
 COPY ["TicketStore.API/TicketStore.API.csproj", "TicketStore.API/"]
 COPY ["TicketStore.Shared/TicketStore.Shared.csproj", "TicketStore.Shared/"]
 COPY ["TicketStore.Domain/TicketStore.Domain.csproj", "TicketStore.Domain/"]
-COPY ["TicketStore.DAL/TicketStore.DAL.csproj", "TicketStore.DAL/"]
 
 # Restore dependencies
 RUN dotnet restore "TicketStore.API/TicketStore.API.csproj"

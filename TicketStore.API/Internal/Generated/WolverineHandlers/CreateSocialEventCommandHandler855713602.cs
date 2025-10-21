@@ -11,14 +11,14 @@ namespace Internal.Generated.WolverineHandlers
     public sealed class CreateSocialEventCommandHandler855713602 : Wolverine.Runtime.Handlers.MessageHandler
     {
         private readonly FluentValidation.IValidator<TicketStore.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> _validator;
-        private readonly Wolverine.FluentValidation.IFailureAction<TicketStore.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> _failureAction;
         private readonly Microsoft.Extensions.DependencyInjection.IServiceScopeFactory _serviceScopeFactory;
+        private readonly Wolverine.FluentValidation.IFailureAction<TicketStore.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> _failureAction;
 
-        public CreateSocialEventCommandHandler855713602(FluentValidation.IValidator<TicketStore.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> validator, Wolverine.FluentValidation.IFailureAction<TicketStore.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> failureAction, Microsoft.Extensions.DependencyInjection.IServiceScopeFactory serviceScopeFactory)
+        public CreateSocialEventCommandHandler855713602(FluentValidation.IValidator<TicketStore.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> validator, Microsoft.Extensions.DependencyInjection.IServiceScopeFactory serviceScopeFactory, Wolverine.FluentValidation.IFailureAction<TicketStore.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> failureAction)
         {
             _validator = validator;
-            _failureAction = failureAction;
             _serviceScopeFactory = serviceScopeFactory;
+            _failureAction = failureAction;
         }
 
 
