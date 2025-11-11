@@ -12,10 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="SocialEventFeature\Schema\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\TicketStore.Shared\TicketStore.Shared.csproj" />
     </ItemGroup>
 

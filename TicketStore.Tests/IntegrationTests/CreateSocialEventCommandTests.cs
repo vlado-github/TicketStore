@@ -27,7 +27,8 @@ public class CreateSocialEventCommandTests : IClassFixture<IntegrationTestFixtur
             Type: EventType.Live,
             StartTime: DateTimeOffset.UtcNow.AddDays(10),
             EndTime: DateTimeOffset.UtcNow.AddDays(10).AddHours(2),
-            Venue: _faker.Address.FullAddress()
+            Venue: _faker.Address.FullAddress(),
+            TicketCirculationCount: 100
         );
         
         //Act

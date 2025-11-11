@@ -1,4 +1,4 @@
-using TicketStore.Domain.SocialEventFeature.Schema.Documents;
+using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
 using TicketStore.Shared.Exceptions;
 
 namespace TicketStore.Domain.SocialEventFeature.Queries;

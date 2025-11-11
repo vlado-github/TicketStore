@@ -1,15 +1,17 @@
-using FluentValidation.Results;
 using JasperFx;
 using JasperFx.CodeGeneration;
+using JasperFx.Events;
 using JasperFx.Events.Daemon;
 using Marten;
 using Serilog;
 using TicketStore.API.Middlewares;
 using TicketStore.Domain.DependencyInjection;
 using TicketStore.Domain.SocialEventFeature.Commands;
+using TicketStore.Domain.SocialEventFeature.Schema.Indexes;
 using TicketStore.Domain.SocialEventFeature.Schema.Projections;
 using Wolverine;
 using Wolverine.FluentValidation;
+using Wolverine.Marten;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +20,7 @@ var connectionString = builder.Configuration.GetConnectionString("TicketStoreDat
 builder.Host.UseWolverine(opts =>
 {
     opts.UseFluentValidation();
-    opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
+    //opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
     opts.ApplicationAssembly = typeof(CreateScheduledEventCommandHandler).Assembly;
 });
 
@@ -33,8 +35,16 @@ builder.Services.AddMarten(opts =>
 {
     opts.Connection(connectionString!);
     opts.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
+    opts.Events.StreamIdentity = StreamIdentity.AsGuid;
     opts.Projections.AddSocialEventProjections();
-}).UseLightweightSessions().AddAsyncDaemon(DaemonMode.HotCold);
+    // Indexes
+    opts.AddSocialEventIndexes();
+}).UseLightweightSessions()
+    .AddAsyncDaemon(DaemonMode.HotCold)
+    .IntegrateWithWolverine(cfg =>
+    {
+        cfg.UseWolverineManagedEventSubscriptionDistribution = true;
+    });
 
 builder.Services.AddControllers();
 builder.Services.AddDomain();

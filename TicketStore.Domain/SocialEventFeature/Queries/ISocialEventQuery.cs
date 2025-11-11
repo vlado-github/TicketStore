@@ -1,5 +1,5 @@
 using Marten.Pagination;
-using TicketStore.Domain.SocialEventFeature.Schema.Documents;
+using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
 
 namespace TicketStore.Domain.SocialEventFeature.Queries;
 

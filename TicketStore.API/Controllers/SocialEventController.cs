@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TicketStore.Domain.Base;
 using TicketStore.Domain.SocialEventFeature.Commands;
 using TicketStore.Domain.SocialEventFeature.Queries;
-using TicketStore.Domain.SocialEventFeature.Schema.Documents;
+using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
 using Wolverine;
 
 namespace TicketStore.API.Controllers;
@@ -27,7 +27,13 @@ public class SocialEventController : ControllerBase
         return await _bus.InvokeAsync<CommandResult>(command);
     }
     
-    [HttpGet("{id}")]
+    [HttpPut("publish")]
+    public async Task<CommandResult> PublishSocialEvent(Guid eventId)
+    {
+        return await _bus.InvokeAsync<CommandResult>(new PublishSocialEventCommand(eventId));
+    }
+    
+    [HttpGet("{id:guid}")]
     public async Task<SocialEvent> GetSocialEvent([FromRoute] Guid id)
     {
         return await _query.GetById(id);

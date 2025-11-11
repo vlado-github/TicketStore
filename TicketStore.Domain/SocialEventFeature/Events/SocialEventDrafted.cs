@@ -1,13 +1,15 @@
 using TicketStore.Shared.Enums;
 
-namespace TicketStore.Domain.SocialEventFeature.Schema.Documents;
+namespace TicketStore.Domain.SocialEventFeature.Events;
 
-public record SocialEvent
+public record SocialEventDrafted
 {
-    public Guid Id { get; init; }
     public string Title { get; init; }
     public EventType Type { get; init; }
+    public EventStatus Status => EventStatus.Draft;
     public string Venue { get; init; }
     public DateTimeOffset StartTime { get; init; }
     public DateTimeOffset? EndTime { get; init; }
+    public int TicketCirculationCount { get; init; }
+    
 }

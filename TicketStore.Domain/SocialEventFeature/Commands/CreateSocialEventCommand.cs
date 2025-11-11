@@ -1,7 +1,8 @@
 using FluentValidation;
 using Marten;
 using TicketStore.Domain.Base;
-using TicketStore.Domain.SocialEventFeature.Schema.Documents;
+using TicketStore.Domain.SocialEventFeature.Events;
+using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
 using TicketStore.Shared.Enums;
 
 namespace TicketStore.Domain.SocialEventFeature.Commands;
@@ -22,24 +23,27 @@ public record CreateSocialEventCommand(
     EventType Type,
     string Venue,
     DateTimeOffset StartTime,
-    DateTimeOffset? EndTime);
+    DateTimeOffset? EndTime,
+    int TicketCirculationCount);
 
 public class CreateScheduledEventCommandHandler
 {
-    public static async Task<CommandResult> Handle(CreateSocialEventCommand command, IDocumentSession session)
+    public static async Task<CommandResult> Handle(CreateSocialEventCommand command, IDocumentStore store)
     {
-        var socialEvent = new SocialEvent()
+        await using var session = store.LightweightSession();
+
+        var draftEvent = new SocialEventDrafted
         {
-            Id = Guid.NewGuid(),
             Title = command.Title,
             Type = command.Type,
             Venue = command.Venue,
             StartTime = command.StartTime,
-            EndTime = command.EndTime
+            EndTime = command.EndTime,
+            TicketCirculationCount = command.TicketCirculationCount
         };
-        session.Store(socialEvent);
+        var stream = session.Events.StartStream<SocialEvent>(draftEvent);
         await session.SaveChangesAsync();
-
-        return new CommandResult(socialEvent.Id);
+        
+        return new CommandResult(stream.Id);
     }
 }
