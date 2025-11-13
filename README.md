@@ -2,7 +2,7 @@
 
 Ticketing solution for social events.
 
-## Docker
+## Getting Started
 
 ### Prerequisite
 
@@ -16,7 +16,7 @@ From the repository's root directory, run command in terminal:
 docker compose up -d
 ```
 
-## Development Setup
+## Local Setup
 
 ### Prerequisite
 

@@ -11,7 +11,6 @@ WORKDIR /src
 
 # Copy project files
 COPY ["TicketStore.API/TicketStore.API.csproj", "TicketStore.API/"]
-COPY ["TicketStore.Shared/TicketStore.Shared.csproj", "TicketStore.Shared/"]
 COPY ["TicketStore.Domain/TicketStore.Domain.csproj", "TicketStore.Domain/"]
 
 # Restore dependencies
