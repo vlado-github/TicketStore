@@ -29,9 +29,15 @@ public class SocialEventController : ControllerBase
     }
     
     [HttpPut("publish")]
-    public async Task<CommandResult> PublishSocialEvent(Guid eventId)
+    public async Task<CommandResult> PublishSocialEvent(Guid socialEventId)
     {
-        return await _bus.InvokeAsync<CommandResult>(new PublishSocialEventCommand(eventId));
+        return await _bus.InvokeAsync<CommandResult>(new PublishSocialEventCommand(socialEventId));
+    }
+    
+    [HttpPut("cancel")]
+    public async Task<CommandResult> CancelSocialEvent(Guid socialEventId)
+    {
+        return await _bus.InvokeAsync<CommandResult>(new CancelSocialEventCommand(socialEventId));
     }
     
     [HttpGet("{id:guid}")]
@@ -41,7 +47,7 @@ public class SocialEventController : ControllerBase
     }
     
     [HttpGet("list/{pageNumber}/{pageSize}")]
-    public async Task<IPagedList<SocialEventProfile>> GetSocialEvents([FromRoute] int pageNumber, [FromRoute] int pageSize)
+    public async Task<IPagedList<SocialEventProfileDetails>> GetSocialEvents([FromRoute] int pageNumber, [FromRoute] int pageSize)
     {
         return await _query.List(pageNumber, pageSize);
     }

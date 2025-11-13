@@ -7,7 +7,7 @@ public partial class SocialEventQuery
 {
     public async Task<SocialEvent> GetById(Guid id)
     {
-        var socialEvent = await _querySession.LoadAsync<SocialEvent>(id);
+        var socialEvent = await _querySession.Events.AggregateStreamAsync<SocialEvent>(id);
 
         if (socialEvent == null)
         {

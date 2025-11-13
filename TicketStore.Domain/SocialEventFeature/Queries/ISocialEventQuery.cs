@@ -7,5 +7,5 @@ namespace TicketStore.Domain.SocialEventFeature.Queries;
 public interface ISocialEventQuery
 {
     Task<SocialEvent> GetById(Guid streamId);
-    Task<IPagedList<SocialEventProfile>> List(int pageNumber = 0, int pageSize = 10);
+    Task<IPagedList<SocialEventProfileDetails>> List(int pageNumber = 0, int pageSize = 10);
 }

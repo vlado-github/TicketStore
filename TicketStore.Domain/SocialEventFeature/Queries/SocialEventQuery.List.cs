@@ -6,10 +6,10 @@ namespace TicketStore.Domain.SocialEventFeature.Queries;
 
 public partial class SocialEventQuery
 {
-    public async Task<IPagedList<SocialEventProfile>> List(int pageNumber = 1, int pageSize = 10)
+    public async Task<IPagedList<SocialEventProfileDetails>> List(int pageNumber = 1, int pageSize = 10)
     {
         return await _querySession
-            .Query<SocialEventProfile>()
+            .Query<SocialEventProfileDetails>()
             .ToPagedListAsync(pageNumber, pageSize);
     }
 }

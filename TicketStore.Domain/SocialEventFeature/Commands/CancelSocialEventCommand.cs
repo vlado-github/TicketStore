@@ -4,6 +4,7 @@ using TicketStore.Domain.Base;
 using TicketStore.Domain.Shared.Enums;
 using TicketStore.Domain.SocialEventFeature.Events;
 using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
+using Wolverine.Marten;
 
 namespace TicketStore.Domain.SocialEventFeature.Commands;
 
@@ -11,14 +12,15 @@ public class CancelSocialEventCommandValidator : AbstractValidator<CancelSocialE
 {
     public CancelSocialEventCommandValidator()
     {
-        RuleFor(x => x.EventId).NotEmpty();
+        RuleFor(x => x.SocialEventId).NotEmpty();
     }
 }
 
-public record CancelSocialEventCommand(Guid EventId);
+public record CancelSocialEventCommand(Guid SocialEventId);
 
-public class CancelSocialEventCommandHandler
+public static class CancelSocialEventCommandHandler
 {
+    [AggregateHandler]
     public static IEnumerable<object> Handle(CancelSocialEventCommand command, SocialEvent socialEvent)
     {
         if (socialEvent.Status == EventStatus.Archived)

@@ -1,9 +1,8 @@
 using FluentValidation;
-using Marten;
-using TicketStore.Domain.Base;
 using TicketStore.Domain.Shared.Enums;
 using TicketStore.Domain.SocialEventFeature.Events;
 using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
+using Wolverine.Marten;
 
 namespace TicketStore.Domain.SocialEventFeature.Commands;
 
@@ -11,19 +10,20 @@ public class PublishSocialEventCommandValidator : AbstractValidator<PublishSocia
 {
     public PublishSocialEventCommandValidator()
     {
-        RuleFor(x => x.EventId).NotEmpty();
+        RuleFor(x => x.SocialEventId).NotEmpty();
     }
 }
 
-public record PublishSocialEventCommand(Guid EventId);
+public record PublishSocialEventCommand(Guid SocialEventId);
 
-public class PublishSocialEventCommandHandler
+public static class PublishSocialEventCommandHandler
 {
-    public static IEnumerable<object> Handle(PublishSocialEventCommand command, SocialEvent socialEvent)
+    [AggregateHandler]
+    public static IEnumerable<object> Handle(PublishSocialEventCommand command, [WriteAggregate] SocialEvent socialEvent)
     {
         if (socialEvent.Status != EventStatus.Draft)
             throw new InvalidOperationException("Can only publish draft events");
 
-        yield return new SocialEventPublished { Id = socialEvent.Id };
+        yield return new SocialEventPublished { Id = command.SocialEventId };
     }
 }

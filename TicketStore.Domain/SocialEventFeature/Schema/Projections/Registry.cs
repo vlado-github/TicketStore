@@ -7,6 +7,6 @@ public static class Registry
 {
     public static void AddSocialEventProjections(this ProjectionOptions options)
     {
-        options.Add(new SocialEventProfile(), ProjectionLifecycle.Inline);
+        options.Add<SocialEventProfile>(ProjectionLifecycle.Inline);
     }
 }

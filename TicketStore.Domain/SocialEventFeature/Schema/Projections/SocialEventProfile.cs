@@ -1,11 +1,11 @@
 ﻿using JasperFx.Events;
-using Marten.Events.Projections;
+using Marten.Events.Aggregation;
 using TicketStore.Domain.Shared.Enums;
 using TicketStore.Domain.SocialEventFeature.Events;
 
 namespace TicketStore.Domain.SocialEventFeature.Schema.Projections;
 
-public class SocialEventProfile: EventProjection
+public class SocialEventProfile: SingleStreamProjection<SocialEventProfileDetails, Guid>
 {
     public SocialEventProfileDetails Create(IEvent<SocialEventDrafted> input)
     {
