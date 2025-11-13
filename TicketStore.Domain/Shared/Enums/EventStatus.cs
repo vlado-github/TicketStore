@@ -1,4 +1,4 @@
-﻿namespace TicketStore.Shared.Enums;
+﻿namespace TicketStore.Domain.Shared.Enums;
 
 public enum EventStatus
 {

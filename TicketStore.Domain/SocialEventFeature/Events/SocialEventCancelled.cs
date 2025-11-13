@@ -1,6 +1,4 @@
-﻿using TicketStore.Shared.Enums;
-
-namespace TicketStore.Domain.SocialEventFeature.Events;
+﻿namespace TicketStore.Domain.SocialEventFeature.Events;
 
 public record SocialEventCancelled
 {

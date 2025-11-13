@@ -1,10 +1,11 @@
 using Marten.Pagination;
 using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
+using TicketStore.Domain.SocialEventFeature.Schema.Projections;
 
 namespace TicketStore.Domain.SocialEventFeature.Queries;
 
 public interface ISocialEventQuery
 {
     Task<SocialEvent> GetById(Guid streamId);
-    Task<IPagedList<SocialEvent>> List(int pageNumber = 0, int pageSize = 10);
+    Task<IPagedList<SocialEventProfile>> List(int pageNumber = 0, int pageSize = 10);
 }

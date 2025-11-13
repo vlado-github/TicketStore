@@ -1,4 +1,4 @@
-namespace TicketStore.Shared.Exceptions;
+namespace TicketStore.Domain.Shared.Exceptions;
 
 public class RecordNotFoundException : Exception
 {

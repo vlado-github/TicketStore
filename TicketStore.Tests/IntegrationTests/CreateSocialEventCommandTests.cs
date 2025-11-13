@@ -1,8 +1,8 @@
 using Alba;
 using Bogus;
 using TicketStore.Domain.Base;
+using TicketStore.Domain.Shared.Enums;
 using TicketStore.Domain.SocialEventFeature.Commands;
-using TicketStore.Shared.Enums;
 using TicketStore.Tests.Base;
 
 namespace TicketStore.Tests.IntegrationTests;

@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using TicketStore.Shared.Consts;
+using TicketStore.Domain.Shared.Consts;
 
 namespace TicketStore.API.Middlewares.CustomResponses
 {

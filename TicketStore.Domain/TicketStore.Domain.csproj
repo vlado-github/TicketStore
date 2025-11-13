@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TicketStore.Shared\TicketStore.Shared.csproj" />
+      <Folder Include="Shared\" />
     </ItemGroup>
 
 </Project>

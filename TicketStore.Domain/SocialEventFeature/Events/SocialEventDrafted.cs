@@ -1,4 +1,4 @@
-using TicketStore.Shared.Enums;
+using TicketStore.Domain.Shared.Enums;
 
 namespace TicketStore.Domain.SocialEventFeature.Events;
 

@@ -1,9 +1,9 @@
 using FluentValidation;
 using Marten;
 using TicketStore.Domain.Base;
+using TicketStore.Domain.Shared.Enums;
 using TicketStore.Domain.SocialEventFeature.Events;
 using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
-using TicketStore.Shared.Enums;
 
 namespace TicketStore.Domain.SocialEventFeature.Commands;
 

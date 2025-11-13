@@ -15,25 +15,35 @@ using Wolverine.Marten;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json")
+    .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
+    .Build();
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration) 
+    .CreateLogger();
+builder.Host.UseSerilog();
+
 var connectionString = builder.Configuration.GetConnectionString("TicketStoreDatabase");
 
 builder.Host.UseWolverine(opts =>
 {
     opts.UseFluentValidation();
-    //opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
+    opts.Policies.MessageExecutionLogLevel(LogLevel.None);
+    opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
     opts.ApplicationAssembly = typeof(CreateScheduledEventCommandHandler).Assembly;
 });
-
-Log.Logger = new LoggerConfiguration()     
-    .MinimumLevel.Debug()     
-    .WriteTo.Console()          
-    .CreateLogger();
-
-builder.Host.UseSerilog();
 
 builder.Services.AddMarten(opts =>
 {
     opts.Connection(connectionString!);
+    opts.DisableNpgsqlLogging = true;
+    opts.CreateDatabasesForTenants(c =>
+    {
+        c.ForTenant().CheckAgainstPgDatabase().ConnectionLimit(500);
+    });
     opts.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
     opts.Events.StreamIdentity = StreamIdentity.AsGuid;
     opts.Projections.AddSocialEventProjections();

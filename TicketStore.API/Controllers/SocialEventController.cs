@@ -4,6 +4,7 @@ using TicketStore.Domain.Base;
 using TicketStore.Domain.SocialEventFeature.Commands;
 using TicketStore.Domain.SocialEventFeature.Queries;
 using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
+using TicketStore.Domain.SocialEventFeature.Schema.Projections;
 using Wolverine;
 
 namespace TicketStore.API.Controllers;
@@ -40,7 +41,7 @@ public class SocialEventController : ControllerBase
     }
     
     [HttpGet("list/{pageNumber}/{pageSize}")]
-    public async Task<IPagedList<SocialEvent>> GetSocialEvent([FromRoute] int pageNumber, [FromRoute] int pageSize)
+    public async Task<IPagedList<SocialEventProfile>> GetSocialEvents([FromRoute] int pageNumber, [FromRoute] int pageSize)
     {
         return await _query.List(pageNumber, pageSize);
     }

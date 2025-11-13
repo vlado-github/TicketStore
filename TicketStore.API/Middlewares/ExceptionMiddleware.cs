@@ -1,6 +1,6 @@
 using FluentValidation;
 using TicketStore.API.Middlewares.CustomResponses;
-using TicketStore.Shared.Exceptions;
+using TicketStore.Domain.Shared.Exceptions;
 
 namespace TicketStore.API.Middlewares;
 

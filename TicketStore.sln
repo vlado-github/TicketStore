@@ -6,8 +6,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Domain", "Ticke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Tests", "TicketStore.Tests\TicketStore.Tests.csproj", "{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketStore.Shared", "TicketStore.Shared\TicketStore.Shared.csproj", "{F17FA5C9-F169-4BD5-965C-59F6794C3197}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +24,5 @@ Global
 		{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F17FA5C9-F169-4BD5-965C-59F6794C3197}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F17FA5C9-F169-4BD5-965C-59F6794C3197}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F17FA5C9-F169-4BD5-965C-59F6794C3197}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F17FA5C9-F169-4BD5-965C-59F6794C3197}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

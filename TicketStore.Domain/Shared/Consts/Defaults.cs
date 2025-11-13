@@ -1,4 +1,4 @@
-namespace TicketStore.Shared.Consts;
+namespace TicketStore.Domain.Shared.Consts;
 
 public static class Defaults
 {
