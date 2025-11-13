@@ -1,6 +1,7 @@
 using Marten.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using TicketStore.Domain.Base;
+using TicketStore.Domain.Shared.Enums;
 using TicketStore.Domain.SocialEventFeature.Commands;
 using TicketStore.Domain.SocialEventFeature.Queries;
 using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
@@ -49,6 +50,6 @@ public class SocialEventController : ControllerBase
     [HttpGet("list/{pageNumber}/{pageSize}")]
     public async Task<IPagedList<SocialEventProfileDetails>> GetSocialEvents([FromRoute] int pageNumber, [FromRoute] int pageSize)
     {
-        return await _query.List(pageNumber, pageSize);
+        return await _query.List(EventStatus.Published, pageNumber, pageSize);
     }
 }
