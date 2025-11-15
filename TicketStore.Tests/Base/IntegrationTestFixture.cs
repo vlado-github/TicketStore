@@ -1,40 +1,39 @@
 using Alba;
 using DotNet.Testcontainers.Builders;
+using JasperFx;
+using JasperFx.Events;
+using JasperFx.Events.Daemon;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Testcontainers.PostgreSql;
+using TicketStore.Domain.SocialEventFeature.Schema.Indexes;
+using TicketStore.Domain.SocialEventFeature.Schema.Projections;
+using Wolverine.Marten;
 
 namespace TicketStore.Tests.Base;
 
 public class IntegrationTestFixture : IAsyncLifetime
 {
     public IAlbaHost Host = null!;
-    private readonly PostgreSqlContainer _postgres;
     public DataSeeder Seeder { get; private set; }
-
-    public IntegrationTestFixture()
-    {
-        _postgres = new PostgreSqlBuilder()
-            .WithImage("postgres:15-alpine")
-            .WithHostname("localhost")
-            .WithDatabase("ticketstore")
-            .WithUsername("postgres")
-            .WithPassword("admin")
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilDatabaseIsAvailable(NpgsqlFactory.Instance))
-            .WithReuse(true)
-            .WithPortBinding(5432, 5432)
-            .Build();
-    }
+    
+    // public static readonly PostgreSqlContainer Postgres =
+    //     new PostgreSqlBuilder()
+    //         .WithImage("postgres:15-alpine")
+    //         .WithDatabase("ticketstore")
+    //         .WithUsername("postgres")
+    //         .WithPassword("admin")
+    //         .Build();
     
     public async Task InitializeAsync()
     {
-        await _postgres.StartAsync();
+        //await Postgres.StartAsync();
         Host = await AlbaHost.For<global::Program>(x =>
         {
             x.ConfigureServices((context, services) =>
             {
-                //add mocks or stubs
+                
             });
         });
         Seeder = new DataSeeder(Host.Services.GetRequiredService<IDocumentStore>());
@@ -42,9 +41,7 @@ public class IntegrationTestFixture : IAsyncLifetime
 
     public async Task DisposeAsync()
     {
-        await Host.CleanAllMartenDataAsync();
+        await Seeder.DisposeAsync();
         await Host.DisposeAsync();
-        await _postgres.StopAsync();
-        await _postgres.DisposeAsync();
     }
 }

@@ -2,6 +2,7 @@ using Alba;
 using Bogus;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
+using TicketStore.Domain.Base;
 using TicketStore.Domain.Shared.Enums;
 using TicketStore.Domain.SocialEventFeature.Events;
 using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
@@ -13,13 +14,11 @@ namespace TicketStore.Tests.IntegrationTests;
 public class GetSocialEventByIdTests : IClassFixture<IntegrationTestFixture>
 {
     private readonly IAlbaHost _host;
-    private readonly Faker _faker;
     private readonly DataSeeder _seeder;
     
     public GetSocialEventByIdTests(IntegrationTestFixture fixture)
     {
         _host = fixture.Host;
-        _faker = new Faker();
         _seeder = fixture.Seeder;
     }
     
@@ -28,8 +27,8 @@ public class GetSocialEventByIdTests : IClassFixture<IntegrationTestFixture>
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        var streamContext = _seeder.NewStream(streamId);
-        var aggregate = await streamContext.Start<SocialEvent>();
+        await _seeder.Seed<SocialEvent>(streamId);
+        var aggregate = await _seeder.GetStream<SocialEvent>(streamId);
         
         //Act
         var response = await _host.Scenario(config =>

@@ -14,13 +14,11 @@ namespace TicketStore.Tests.IntegrationTests;
 public class PublishSocialEventCommandTests : IClassFixture<IntegrationTestFixture>
 {
     private readonly IAlbaHost _host;
-    private readonly Faker _faker;
     private readonly DataSeeder _seeder;
     
     public PublishSocialEventCommandTests(IntegrationTestFixture fixture)
     {
         _host = fixture.Host;
-        _faker = new Faker();
         _seeder = fixture.Seeder;
     }
     
@@ -29,8 +27,8 @@ public class PublishSocialEventCommandTests : IClassFixture<IntegrationTestFixtu
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        var streamContext = _seeder.NewStream(streamId);
-        var aggregate = await streamContext.Start<SocialEvent>();
+        await _seeder.Seed<SocialEvent>(streamId);
+        var aggregate = await _seeder.GetStream<SocialEvent>(streamId);
         var command = new PublishSocialEventCommand(streamId);
         
         //Act

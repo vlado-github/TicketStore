@@ -12,93 +12,63 @@ namespace TicketStore.Tests.Base;
 public class DataSeeder : IAsyncDisposable
 {
     private readonly IDocumentStore _store;
+    private readonly Faker _faker;
+    private IList<Guid> _streamIdsToRemove;
     
     public DataSeeder(IDocumentStore store)
     {
         _store = store;
+        _faker = new Faker();
+        _streamIdsToRemove = new List<Guid>();
     }
-    
-    public StreamContext NewStream(Guid streamId)
+
+    public async Task<TAggregate> GetStream<TAggregate>(Guid streamId)
+    where TAggregate : class
     {
-        return new StreamContext(streamId, _store);
+        await using var session = _store.QuerySession();
+        var aggregate = await session.Events.AggregateStreamAsync<TAggregate>(streamId);
+        if (aggregate == null)
+        {
+            throw new RecordNotFoundException(streamId);   
+        }
+        return aggregate;
+    }
+
+    public async Task Seed<TAggregate>(Guid streamId, IList<EventBase>? additionalEvents = null)
+    {
+        var events = new List<EventBase>();
+        if (typeof(TAggregate) == typeof(SocialEvent))
+        {
+            events.Add(    
+                new SocialEventDrafted()
+                {
+                    Title = _faker.Lorem.Sentence(3),
+                    Description = _faker.Lorem.Paragraph(),
+                    Type = EventType.OnSite,
+                    StartTime = DateTimeOffset.UtcNow.AddDays(10),
+                    EndTime = DateTimeOffset.UtcNow.AddDays(10).AddHours(2),
+                    Venue = _faker.Address.FullAddress(),
+                    TicketCirculationCount = _faker.Random.Int(50, 5000),
+                });
+            if (additionalEvents != null)
+            {
+                events.AddRange(additionalEvents);
+            }
+        }
+        
+        await using var session = _store.LightweightSession();
+        var stream = session.Events.StartStream<SocialEvent>(streamId, events);
+        await session.SaveChangesAsync();
+        _streamIdsToRemove.Add(stream.Id);
     }
 
     public async ValueTask DisposeAsync()
     {
-        await _store.Advanced.Clean.DeleteAllDocumentsAsync();
-        await _store.Advanced.Clean.DeleteAllEventDataAsync();
-    }
-}
-
-public class StreamContext
-{
-    private readonly IDocumentStore _store;
-    private readonly Faker _faker;
-    private readonly Guid _streamId;
-    
-    public StreamContext(Guid streamId, IDocumentStore store)
-    {
-        _store = store;
-        _streamId = streamId;
-        _faker = new Faker();
-    }
-    
-    public async Task<TAggregateRoot> Start<TAggregateRoot>() 
-        where TAggregateRoot : class
-    {
-        if (typeof(TAggregateRoot) == typeof(SocialEvent))
-        {
-            var drafted = new SocialEventDrafted
-            {
-                Title = _faker.Lorem.Sentence(3),
-                Description = _faker.Lorem.Paragraph(),
-                Type = EventType.OnSite,
-                StartTime = DateTimeOffset.UtcNow.AddDays(10),
-                EndTime = DateTimeOffset.UtcNow.AddDays(10).AddHours(2),
-                Venue = _faker.Address.FullAddress(),
-                TicketCirculationCount = _faker.Random.Int(50, 5000),
-            };
-            await CreateAsync<SocialEvent, SocialEventDrafted>(drafted);
-            return await GetAsync<TAggregateRoot>();
-        }
-        
-        throw new ArgumentOutOfRangeException(typeof(TAggregateRoot).ToString());
-    }
-
-    public async Task<TAggregateRoot> Append<TAggregateRoot, TEvent>(TEvent @event)
-        where TAggregateRoot : class
-        where TEvent : EventBase
-    {
-        await ApplyAsync<TEvent>(@event);
-        return await GetAsync<TAggregateRoot>();
-    }
-    
-    private async Task CreateAsync<TAggregateRoot, TEvent>(TEvent @event) 
-        where TAggregateRoot : class
-        where TEvent : EventBase
-    {
         await using var session = _store.LightweightSession();
-        session.Events.StartStream<TAggregateRoot>(_streamId, @event);
-        await session.SaveChangesAsync();
-    }
-    
-    private async Task ApplyAsync<TEvent>(TEvent @event) 
-        where TEvent : EventBase
-    {
-        await using var session = _store.LightweightSession();
-        session.Events.Append(_streamId,  @event);
-        await session.SaveChangesAsync();
-    }
-    
-    private async Task<TAggregateRoot> GetAsync<TAggregateRoot>() 
-        where TAggregateRoot : class
-    {
-        await using var session = _store.QuerySession();
-        var aggregate = await session.Events.AggregateStreamAsync<TAggregateRoot>(_streamId);
-        if (aggregate is null)
+        foreach (var streamId in _streamIdsToRemove)
         {
-            throw new RecordNotFoundException(_streamId);
+            session.Events.ArchiveStream(streamId);
         }
-        return aggregate;
+        await session.SaveChangesAsync();
     }
 }

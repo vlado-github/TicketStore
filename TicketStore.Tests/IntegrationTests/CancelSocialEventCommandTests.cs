@@ -1,6 +1,7 @@
 using System.Net;
 using Alba;
 using Bogus;
+using Marten;
 using TicketStore.Domain.Base;
 using TicketStore.Domain.Shared.Enums;
 using TicketStore.Domain.SocialEventFeature.Commands;
@@ -14,13 +15,11 @@ namespace TicketStore.Tests.IntegrationTests;
 public class CancelSocialEventCommandTests : IClassFixture<IntegrationTestFixture>
 {
     private readonly IAlbaHost _host;
-    private readonly Faker _faker;
     private readonly DataSeeder _seeder;
     
     public CancelSocialEventCommandTests(IntegrationTestFixture fixture)
     {
         _host = fixture.Host;
-        _faker = new Faker();
         _seeder = fixture.Seeder;
     }
     
@@ -29,12 +28,14 @@ public class CancelSocialEventCommandTests : IClassFixture<IntegrationTestFixtur
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        var streamContext = _seeder.NewStream(streamId);
-        await streamContext.Start<SocialEvent>();
-        var aggregate = await streamContext.Append<SocialEvent, SocialEventPublished>(new SocialEventPublished()
+        await _seeder.Seed<SocialEvent>(streamId, new List<EventBase>()
         {
-            Id = streamId
+            new SocialEventPublished()
+            {
+                Id = streamId
+            }
         });
+        var aggregate = await _seeder.GetStream<SocialEvent>(streamId);
         var command = new CancelSocialEventCommand(streamId);
         
         //Act
@@ -68,13 +69,13 @@ public class CancelSocialEventCommandTests : IClassFixture<IntegrationTestFixtur
     {
         //Arrange
         var streamId = Guid.NewGuid();
-        var streamContext = _seeder.NewStream(streamId);
-        await streamContext.Start<SocialEvent>();
-        await streamContext.Append<SocialEvent, SocialEventArchived>(new SocialEventArchived()
+        await _seeder.Seed<SocialEvent>(streamId, new List<EventBase>()
         {
-            Id = streamId
+            new SocialEventArchived()
+            {
+                Id = streamId
+            }
         });
-        
         var command = new CancelSocialEventCommand(streamId);
         
         //Act & Assert
