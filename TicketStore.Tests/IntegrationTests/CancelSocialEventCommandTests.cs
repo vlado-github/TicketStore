@@ -78,7 +78,7 @@ public class CancelSocialEventCommandTests : IClassFixture<IntegrationTestFixtur
         var command = new CancelSocialEventCommand(streamId);
         
         //Act & Assert
-        var response = await _host.Scenario(config =>
+        await _host.Scenario(config =>
         {
             config.Put.Json(command).ToUrl("/socialevent/cancel");
             config.StatusCodeShouldBe(HttpStatusCode.BadRequest);
