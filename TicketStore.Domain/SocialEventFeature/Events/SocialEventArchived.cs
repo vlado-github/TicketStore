@@ -2,7 +2,7 @@
 
 namespace TicketStore.Domain.SocialEventFeature.Events;
 
-public record SocialEventCancelled : EventBase
+public record SocialEventArchived : EventBase
 {
     public Guid Id { get; init; }
 }

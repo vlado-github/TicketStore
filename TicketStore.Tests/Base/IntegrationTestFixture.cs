@@ -1,5 +1,7 @@
 using Alba;
 using DotNet.Testcontainers.Builders;
+using Marten;
+using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Testcontainers.PostgreSql;
 
@@ -9,6 +11,7 @@ public class IntegrationTestFixture : IAsyncLifetime
 {
     public IAlbaHost Host = null!;
     private readonly PostgreSqlContainer _postgres;
+    public DataSeeder Seeder { get; private set; }
 
     public IntegrationTestFixture()
     {
@@ -34,10 +37,12 @@ public class IntegrationTestFixture : IAsyncLifetime
                 //add mocks or stubs
             });
         });
+        Seeder = new DataSeeder(Host.Services.GetRequiredService<IDocumentStore>());
     }
 
     public async Task DisposeAsync()
     {
+        await Host.CleanAllMartenDataAsync();
         await Host.DisposeAsync();
         await _postgres.StopAsync();
         await _postgres.DisposeAsync();

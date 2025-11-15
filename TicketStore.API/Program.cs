@@ -33,7 +33,7 @@ builder.Host.UseWolverine(opts =>
     opts.UseFluentValidation();
     opts.Policies.MessageExecutionLogLevel(LogLevel.None);
     opts.CodeGeneration.TypeLoadMode = TypeLoadMode.Auto;
-    opts.ApplicationAssembly = typeof(CreateScheduledEventCommandHandler).Assembly;
+    opts.ApplicationAssembly = typeof(CreateSocialEventCommandHandler).Assembly;
 });
 
 builder.Services.AddMarten(opts =>

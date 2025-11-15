@@ -20,13 +20,14 @@ public class CreateSocialEventCommandValidator : AbstractValidator<CreateSocialE
 
 public record CreateSocialEventCommand(
     string Title, 
+    string Description, 
     EventType Type,
     string Venue,
     DateTimeOffset StartTime,
     DateTimeOffset? EndTime,
     int TicketCirculationCount);
 
-public class CreateScheduledEventCommandHandler
+public class CreateSocialEventCommandHandler
 {
     public static async Task<CommandResult> Handle(CreateSocialEventCommand command, IDocumentStore store)
     {
@@ -35,6 +36,7 @@ public class CreateScheduledEventCommandHandler
         var draftEvent = new SocialEventDrafted
         {
             Title = command.Title,
+            Description = command.Description,
             Type = command.Type,
             Venue = command.Venue,
             StartTime = command.StartTime,

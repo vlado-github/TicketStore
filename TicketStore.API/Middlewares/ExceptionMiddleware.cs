@@ -28,6 +28,11 @@ public class ExceptionMiddleware
             await HandleValidationExceptionAsync(context, exception);
             _logger.LogWarning(exception, exception.Message);
         }
+        catch (InvalidOperationException exception)
+        {
+            await HandleInvalidOperationExceptionAsync(context, exception);
+            _logger.LogWarning(exception, exception.Message);
+        }
         catch (RecordNotFoundException exception)
         {
             await HandleNotFoundExceptionAsync(context, exception);
@@ -47,7 +52,15 @@ public class ExceptionMiddleware
     {
         var validationDetails = new CustomValidationErrorDetails(exception.Message, exception.Errors);
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)validationDetails.Status;
+        context.Response.StatusCode = validationDetails.Status;
         await context.Response.WriteAsync(validationDetails.ToString());
+    }
+    
+    private async Task HandleInvalidOperationExceptionAsync(HttpContext context, InvalidOperationException exception)
+    {
+        var errorDetails = new InvalidOperationErrorDetails(exception.Message);
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = errorDetails.Status;
+        await context.Response.WriteAsync(errorDetails.ToString());
     }
 }

@@ -3,6 +3,8 @@ using Bogus;
 using TicketStore.Domain.Base;
 using TicketStore.Domain.Shared.Enums;
 using TicketStore.Domain.SocialEventFeature.Commands;
+using TicketStore.Domain.SocialEventFeature.Schema.Aggregates;
+using TicketStore.Domain.SocialEventFeature.Schema.Projections;
 using TicketStore.Tests.Base;
 
 namespace TicketStore.Tests.IntegrationTests;
@@ -19,12 +21,13 @@ public class CreateSocialEventCommandTests : IClassFixture<IntegrationTestFixtur
     }
     
     [Fact]
-    public async Task CreateAccount_Should_Succeed()
+    public async Task CreateSocialEvent_Should_Succeed()
     {
         //Arrange
         var command = new CreateSocialEventCommand(
-            Title: _faker.Rant.Locale,
-            Type: EventType.Live,
+            Title: _faker.Lorem.Sentence(3),
+            Description: _faker.Lorem.Paragraph(),
+            Type: EventType.OnSite,
             StartTime: DateTimeOffset.UtcNow.AddDays(10),
             EndTime: DateTimeOffset.UtcNow.AddDays(10).AddHours(2),
             Venue: _faker.Address.FullAddress(),
@@ -32,15 +35,33 @@ public class CreateSocialEventCommandTests : IClassFixture<IntegrationTestFixtur
         );
         
         //Act
-        var response = await _host.Scenario(config =>
+        var createResponse = await _host.Scenario(config =>
         {
             config.Post.Json(command).ToUrl("/socialevent");
             config.StatusCodeShouldBeOk();
         });
+        
+        //Assert
+        var createResult = await createResponse.ReadAsJsonAsync<CommandResult>();
+        Assert.NotNull(createResult);
+        Assert.NotEqual(Guid.Empty, createResult.Id);
+        
+        //Act
+        var getResponse = await _host.Scenario(config =>
+        {
+            config.Get.Url($"/socialevent/{createResult.Id}");
+            config.StatusCodeShouldBeOk();
+        });
 
         //Assert
-        var result = await response.ReadAsJsonAsync<CommandResult>();
+        var result = await getResponse.ReadAsJsonAsync<SocialEventProfileDetails>();
         Assert.NotNull(result);
-        Assert.NotEqual(Guid.Empty, result.Id);
+        Assert.Equal(command.Title, result.Title);
+        Assert.Equal(command.Description, result.Description);
+        Assert.Equal(command.Type, result.Type);
+        Assert.Equal(command.StartTime, result.StartTime);
+        Assert.Equal(command.EndTime, result.EndTime);
+        Assert.Equal(command.Venue, result.Venue);
+        Assert.Equal(command.TicketCirculationCount, result.TicketCirculationCount);
     }
 }

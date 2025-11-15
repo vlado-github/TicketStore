@@ -13,9 +13,12 @@ public class SocialEventProfile: SingleStreamProjection<SocialEventProfileDetail
         {
             Id = input.Id, 
             Title = input.Data.Title,
+            Description = input.Data.Description,
             Type = input.Data.Type,
             Venue = input.Data.Venue,
             StartTime = input.Data.StartTime,
+            EndTime = input.Data.EndTime,
+            TicketCirculationCount = input.Data.TicketCirculationCount
         };
     }
     
@@ -31,8 +34,11 @@ public class SocialEventProfileDetails
 {
     public Guid Id { get; set; }
     public string Title { get; set; }
+    public string Description { get; set; }
     public EventType Type { get; set; }
     public EventStatus Status { get; set; }
     public string Venue { get; set; }
     public DateTimeOffset StartTime { get; set; }
+    public DateTimeOffset? EndTime { get; set; } = null;
+    public int TicketCirculationCount { get; set; }
 }
