@@ -17,7 +17,7 @@ public class GetSocialEventByIdTests : IClassFixture<IntegrationTestFixture>
     }
     
     [Fact]
-    public async Task GetSocialEvent_ById_Should_Succeed()
+    public async Task Get_SocialEvent_ById_Should_Succeed()
     {
         //Arrange
         var streamId = Guid.NewGuid();

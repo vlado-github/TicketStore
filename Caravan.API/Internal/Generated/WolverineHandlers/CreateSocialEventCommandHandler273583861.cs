@@ -10,15 +10,15 @@ namespace Internal.Generated.WolverineHandlers
     [global::System.CodeDom.Compiler.GeneratedCode("JasperFx", "1.0.0")]
     public sealed class CreateSocialEventCommandHandler273583861 : Wolverine.Runtime.Handlers.MessageHandler
     {
-        private readonly FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> _validator;
         private readonly Marten.IDocumentStore _documentStore;
         private readonly Wolverine.FluentValidation.IFailureAction<Caravan.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> _failureAction;
+        private readonly FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> _validator;
 
-        public CreateSocialEventCommandHandler273583861(FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> validator, Marten.IDocumentStore documentStore, Wolverine.FluentValidation.IFailureAction<Caravan.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> failureAction)
+        public CreateSocialEventCommandHandler273583861(Marten.IDocumentStore documentStore, Wolverine.FluentValidation.IFailureAction<Caravan.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> failureAction, FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.CreateSocialEventCommand> validator)
         {
-            _validator = validator;
             _documentStore = documentStore;
             _failureAction = failureAction;
+            _validator = validator;
         }
 
 

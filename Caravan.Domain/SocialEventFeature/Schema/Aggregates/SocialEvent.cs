@@ -1,4 +1,5 @@
 using Caravan.Domain.Shared.Enums;
+using Caravan.Domain.Shared.ValueObjects;
 using Caravan.Domain.SocialEventFeature.Events;
 
 namespace Caravan.Domain.SocialEventFeature.Schema.Aggregates;
@@ -11,6 +12,8 @@ public class SocialEvent
     public EventType Type { get; private set; }
     public EventStatus Status { get; private set; } = EventStatus.Draft;
     public string Venue { get; private set; }
+    public string City { get; private set; }
+    public GeoLocation? Location { get; private set; } = null;
     public DateTimeOffset StartTime { get; private set; }
     public DateTimeOffset? EndTime { get; private set; } = null;
     public int TicketCirculationCount { get; private set; }
@@ -53,6 +56,13 @@ public class SocialEvent
     {
         current.Status = EventStatus.Archived;
         current.ArchivedAt = DateTimeOffset.UtcNow;
+        return current;
+    }
+    
+    public static SocialEvent Apply(SocialEvent current, SocialEventRescheduled @event)
+    {
+        current.StartTime = @event.StartTime;
+        current.EndTime = @event.EndTime;
         return current;
     }
 }

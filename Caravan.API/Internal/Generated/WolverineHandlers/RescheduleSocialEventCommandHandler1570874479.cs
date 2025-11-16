@@ -7,19 +7,19 @@ using Wolverine.Marten.Publishing;
 
 namespace Internal.Generated.WolverineHandlers
 {
-    // START: PublishSocialEventCommandHandler1878703604
+    // START: RescheduleSocialEventCommandHandler1570874479
     [global::System.CodeDom.Compiler.GeneratedCode("JasperFx", "1.0.0")]
-    public sealed class PublishSocialEventCommandHandler1878703604 : Wolverine.Runtime.Handlers.MessageHandler
+    public sealed class RescheduleSocialEventCommandHandler1570874479 : Wolverine.Runtime.Handlers.MessageHandler
     {
+        private readonly Microsoft.Extensions.Logging.ILogger<Caravan.Domain.SocialEventFeature.Commands.RescheduleSocialEventCommand> _loggerForMessage;
         private readonly Wolverine.Marten.Publishing.OutboxedSessionFactory _outboxedSessionFactory;
-        private readonly Microsoft.Extensions.Logging.ILogger<Caravan.Domain.SocialEventFeature.Commands.PublishSocialEventCommand> _loggerForMessage;
-        private readonly Wolverine.FluentValidation.IFailureAction<Caravan.Domain.SocialEventFeature.Commands.PublishSocialEventCommand> _failureAction;
-        private readonly FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.PublishSocialEventCommand> _validator;
+        private readonly Wolverine.FluentValidation.IFailureAction<Caravan.Domain.SocialEventFeature.Commands.RescheduleSocialEventCommand> _failureAction;
+        private readonly FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.RescheduleSocialEventCommand> _validator;
 
-        public PublishSocialEventCommandHandler1878703604(Wolverine.Marten.Publishing.OutboxedSessionFactory outboxedSessionFactory, Microsoft.Extensions.Logging.ILogger<Caravan.Domain.SocialEventFeature.Commands.PublishSocialEventCommand> loggerForMessage, Wolverine.FluentValidation.IFailureAction<Caravan.Domain.SocialEventFeature.Commands.PublishSocialEventCommand> failureAction, FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.PublishSocialEventCommand> validator)
+        public RescheduleSocialEventCommandHandler1570874479(Microsoft.Extensions.Logging.ILogger<Caravan.Domain.SocialEventFeature.Commands.RescheduleSocialEventCommand> loggerForMessage, Wolverine.Marten.Publishing.OutboxedSessionFactory outboxedSessionFactory, Wolverine.FluentValidation.IFailureAction<Caravan.Domain.SocialEventFeature.Commands.RescheduleSocialEventCommand> failureAction, FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.RescheduleSocialEventCommand> validator)
         {
-            _outboxedSessionFactory = outboxedSessionFactory;
             _loggerForMessage = loggerForMessage;
+            _outboxedSessionFactory = outboxedSessionFactory;
             _failureAction = failureAction;
             _validator = validator;
         }
@@ -28,19 +28,19 @@ namespace Internal.Generated.WolverineHandlers
 
         public override async System.Threading.Tasks.Task HandleAsync(Wolverine.Runtime.MessageContext context, System.Threading.CancellationToken cancellation)
         {
+            // The actual message body
+            var rescheduleSocialEventCommand = (Caravan.Domain.SocialEventFeature.Commands.RescheduleSocialEventCommand)context.Envelope.Message;
+
+            var socialEvent_Id = rescheduleSocialEventCommand.SocialEventId;
             // Building the Marten session
             await using var documentSession = _outboxedSessionFactory.OpenSession(context);
-            // The actual message body
-            var publishSocialEventCommand = (Caravan.Domain.SocialEventFeature.Commands.PublishSocialEventCommand)context.Envelope.Message;
-
-            var socialEvent_Id = publishSocialEventCommand.SocialEventId;
-            System.Diagnostics.Activity.Current?.SetTag("message.handler", "Caravan.Domain.SocialEventFeature.Commands.PublishSocialEventCommandHandler");
-            await Wolverine.FluentValidation.Internals.FluentValidationExecutor.ExecuteOne<Caravan.Domain.SocialEventFeature.Commands.PublishSocialEventCommand>(_validator, _failureAction, publishSocialEventCommand).ConfigureAwait(false);
+            System.Diagnostics.Activity.Current?.SetTag("message.handler", "Caravan.Domain.SocialEventFeature.Commands.RescheduleSocialEventCommandHandler");
+            await Wolverine.FluentValidation.Internals.FluentValidationExecutor.ExecuteOne<Caravan.Domain.SocialEventFeature.Commands.RescheduleSocialEventCommand>(_validator, _failureAction, rescheduleSocialEventCommand).ConfigureAwait(false);
             var batchedQuery = documentSession.CreateBatchQuery();
 
             var eventStream_BatchItem = batchedQuery.Events.FetchForWriting<Caravan.Domain.SocialEventFeature.Schema.Aggregates.SocialEvent>(socialEvent_Id);
 
-            var stream_socialEvent_BatchItem = batchedQuery.Events.FetchForWriting<Caravan.Domain.SocialEventFeature.Schema.Aggregates.SocialEvent>(((Caravan.Domain.SocialEventFeature.Commands.PublishSocialEventCommand)context.Envelope.Message).SocialEventId);
+            var stream_socialEvent_BatchItem = batchedQuery.Events.FetchForWriting<Caravan.Domain.SocialEventFeature.Schema.Aggregates.SocialEvent>(((Caravan.Domain.SocialEventFeature.Commands.RescheduleSocialEventCommand)context.Envelope.Message).SocialEventId);
 
             await batchedQuery.Execute(cancellation);
 
@@ -53,7 +53,7 @@ namespace Internal.Generated.WolverineHandlers
             if (result_of_Assert1 == Wolverine.HandlerContinuation.Stop) return;
             
             // The actual message execution
-            var outgoing1 = Caravan.Domain.SocialEventFeature.Commands.PublishSocialEventCommandHandler.Handle(publishSocialEventCommand, stream_socialEvent.Aggregate);
+            var outgoing1 = Caravan.Domain.SocialEventFeature.Commands.RescheduleSocialEventCommandHandler.Handle(rescheduleSocialEventCommand, stream_socialEvent.Aggregate);
 
             if (outgoing1 != null)
             {
@@ -75,7 +75,7 @@ namespace Internal.Generated.WolverineHandlers
 
     }
 
-    // END: PublishSocialEventCommandHandler1878703604
+    // END: RescheduleSocialEventCommandHandler1570874479
     
     
 }

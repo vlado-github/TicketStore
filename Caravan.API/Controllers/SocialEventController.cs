@@ -34,8 +34,20 @@ public class SocialEventController : ControllerBase
         await _bus.InvokeAsync<CommandResult>(command);
     }
     
+    [HttpPut("reschedule")]
+    public async Task RescheduleSocialEvent(RescheduleSocialEventCommand command)
+    {
+        await _bus.InvokeAsync<CommandResult>(command);
+    }
+    
     [HttpPut("cancel")]
     public async Task CancelSocialEvent(CancelSocialEventCommand command)
+    {
+        await _bus.InvokeAsync<CommandResult>(command);
+    }
+    
+    [HttpPut("archive")]
+    public async Task ArchiveSocialEvent(ArchiveSocialEventCommand command)
     {
         await _bus.InvokeAsync<CommandResult>(command);
     }

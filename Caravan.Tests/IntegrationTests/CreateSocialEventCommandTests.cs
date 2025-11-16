@@ -1,3 +1,4 @@
+using System.Net;
 using Alba;
 using Bogus;
 using Caravan.Tests.Base;
@@ -21,7 +22,7 @@ public class CreateSocialEventCommandTests : IClassFixture<IntegrationTestFixtur
     }
     
     [Fact]
-    public async Task CreateSocialEvent_Should_Succeed()
+    public async Task Create_SocialEvent_Should_Succeed()
     {
         //Arrange
         var command = new CreateSocialEventCommand(
@@ -63,5 +64,28 @@ public class CreateSocialEventCommandTests : IClassFixture<IntegrationTestFixtur
         Assert.Equal(command.EndTime, result.EndTime);
         Assert.Equal(command.Venue, result.Venue);
         Assert.Equal(command.TicketCirculationCount, result.TicketCirculationCount);
+    }
+    
+    [Fact]
+    public async Task Create_SocialEvent_WithWrongEndTime_Should_Fail()
+    {
+        //Arrange
+        //Arrange
+        var command = new CreateSocialEventCommand(
+            Title: _faker.Lorem.Sentence(3),
+            Description: _faker.Lorem.Paragraph(),
+            Type: EventType.OnSite,
+            StartTime: DateTimeOffset.UtcNow.AddDays(10),
+            EndTime: DateTimeOffset.UtcNow,
+            Venue: _faker.Address.FullAddress(),
+            TicketCirculationCount: 100
+        );
+        
+        //Act & Assert
+        await _host.Scenario(config =>
+        {
+            config.Post.Json(command).ToUrl("/socialevent");
+            config.StatusCodeShouldBe(HttpStatusCode.BadRequest);
+        });
     }
 }

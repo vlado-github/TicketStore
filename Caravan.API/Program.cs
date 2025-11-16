@@ -26,7 +26,7 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Host.UseSerilog();
 
-var connectionString = builder.Configuration.GetConnectionString("TicketStoreDatabase");
+var connectionString = builder.Configuration.GetConnectionString("CaravanDatabase");
 
 builder.Host.UseWolverine(opts =>
 {

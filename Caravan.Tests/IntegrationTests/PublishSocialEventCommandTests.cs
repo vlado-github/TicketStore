@@ -19,7 +19,7 @@ public class PublishSocialEventCommandTests : IClassFixture<IntegrationTestFixtu
     }
     
     [Fact]
-    public async Task PublishSocialEvent_Should_Succeed()
+    public async Task Publish_SocialEvent_Should_Succeed()
     {
         //Arrange
         var streamId = Guid.NewGuid();

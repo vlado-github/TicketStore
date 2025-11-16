@@ -20,7 +20,7 @@ public class GetSocialEventsListTests : IClassFixture<IntegrationTestFixture>
     }
     
     [Fact]
-    public async Task GetEventsList_Should_Succeed()
+    public async Task Get_EventsList_Should_Succeed()
     {
         //Arrange
         var numberOfDraftEvents = 5;

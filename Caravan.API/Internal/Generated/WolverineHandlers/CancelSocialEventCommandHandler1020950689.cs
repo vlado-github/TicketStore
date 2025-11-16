@@ -10,27 +10,27 @@ namespace Internal.Generated.WolverineHandlers
     [global::System.CodeDom.Compiler.GeneratedCode("JasperFx", "1.0.0")]
     public sealed class CancelSocialEventCommandHandler1020950689 : Wolverine.Runtime.Handlers.MessageHandler
     {
-        private readonly Wolverine.FluentValidation.IFailureAction<Caravan.Domain.SocialEventFeature.Commands.CancelSocialEventCommand> _failureAction;
-        private readonly FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.CancelSocialEventCommand> _validator;
         private readonly Wolverine.Marten.Publishing.OutboxedSessionFactory _outboxedSessionFactory;
+        private readonly FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.CancelSocialEventCommand> _validator;
+        private readonly Wolverine.FluentValidation.IFailureAction<Caravan.Domain.SocialEventFeature.Commands.CancelSocialEventCommand> _failureAction;
 
-        public CancelSocialEventCommandHandler1020950689(Wolverine.FluentValidation.IFailureAction<Caravan.Domain.SocialEventFeature.Commands.CancelSocialEventCommand> failureAction, FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.CancelSocialEventCommand> validator, Wolverine.Marten.Publishing.OutboxedSessionFactory outboxedSessionFactory)
+        public CancelSocialEventCommandHandler1020950689(Wolverine.Marten.Publishing.OutboxedSessionFactory outboxedSessionFactory, FluentValidation.IValidator<Caravan.Domain.SocialEventFeature.Commands.CancelSocialEventCommand> validator, Wolverine.FluentValidation.IFailureAction<Caravan.Domain.SocialEventFeature.Commands.CancelSocialEventCommand> failureAction)
         {
-            _failureAction = failureAction;
-            _validator = validator;
             _outboxedSessionFactory = outboxedSessionFactory;
+            _validator = validator;
+            _failureAction = failureAction;
         }
 
 
 
         public override async System.Threading.Tasks.Task HandleAsync(Wolverine.Runtime.MessageContext context, System.Threading.CancellationToken cancellation)
         {
+            // Building the Marten session
+            await using var documentSession = _outboxedSessionFactory.OpenSession(context);
             // The actual message body
             var cancelSocialEventCommand = (Caravan.Domain.SocialEventFeature.Commands.CancelSocialEventCommand)context.Envelope.Message;
 
             var socialEvent_Id = cancelSocialEventCommand.SocialEventId;
-            // Building the Marten session
-            await using var documentSession = _outboxedSessionFactory.OpenSession(context);
             System.Diagnostics.Activity.Current?.SetTag("message.handler", "Caravan.Domain.SocialEventFeature.Commands.CancelSocialEventCommandHandler");
             await Wolverine.FluentValidation.Internals.FluentValidationExecutor.ExecuteOne<Caravan.Domain.SocialEventFeature.Commands.CancelSocialEventCommand>(_validator, _failureAction, cancelSocialEventCommand).ConfigureAwait(false);
             // Loading Marten aggregate as part of the aggregate handler workflow

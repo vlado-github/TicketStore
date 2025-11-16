@@ -15,6 +15,9 @@ public class CreateSocialEventCommandValidator : AbstractValidator<CreateSocialE
         RuleFor(x => x.Type).NotNull();
         RuleFor(x => x.Venue).NotNull().NotEmpty();
         RuleFor(x => x.StartTime).NotNull();
+        RuleFor(x => x.EndTime)
+            .GreaterThan(x => x.StartTime)
+            .When(x => x.EndTime.HasValue);
     }
 }
 
