@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caravan.API", "Caravan.API\Caravan.API.csproj", "{6FFD68D1-4BF9-4687-BCDB-72D5BA0A1F84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caravan.Domain", "Caravan.Domain\Caravan.Domain.csproj", "{2C822343-4C50-4534-94B0-1BECDF3E88E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caravan.Tests", "Caravan.Tests\Caravan.Tests.csproj", "{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FFD68D1-4BF9-4687-BCDB-72D5BA0A1F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FFD68D1-4BF9-4687-BCDB-72D5BA0A1F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FFD68D1-4BF9-4687-BCDB-72D5BA0A1F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FFD68D1-4BF9-4687-BCDB-72D5BA0A1F84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C822343-4C50-4534-94B0-1BECDF3E88E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C822343-4C50-4534-94B0-1BECDF3E88E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C822343-4C50-4534-94B0-1BECDF3E88E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C822343-4C50-4534-94B0-1BECDF3E88E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77DE0A20-3FB1-4F56-B160-6EDF52FBAD66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

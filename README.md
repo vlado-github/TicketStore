@@ -1,6 +1,6 @@
-# TicketStore
+# Caravan
 
-Ticketing solution for social events.
+Social event platform and free-ticket reservation solution for groups and communities.
 
 ## Getting Started
 
@@ -28,7 +28,7 @@ docker compose up -d
 From the repository's root directory, run command in terminal:
 
 ```bash
- dotnet run --project .\TicketStore.API\
+ dotnet run --project .\Caravan.API\
 ```
 
 ### Access Open API docs

@@ -1,8 +1,0 @@
-﻿using TicketStore.Domain.Base;
-
-namespace TicketStore.Domain.SocialEventFeature.Events;
-
-public record SocialEventCancelled : EventBase
-{
-    public Guid Id { get; init; }
-}

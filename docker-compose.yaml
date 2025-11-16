@@ -1,24 +1,24 @@
 services:
   api:
-    image: ticketstore.api
-    container_name: ticketstore-api
+    image: caravan.api
+    container_name: caravan-api
     build:
       context: .
-      dockerfile: TicketStore.API/Dockerfile
+      dockerfile: Caravan.API/Dockerfile
     ports:
       - "5012:8080"
     restart: always
     environment:
-      - TICKETSTORE_DB_CONNECTION=Server=localhost;Port=5432;Database=ticketstore;User Id=postgres;Password=admin;SslMode=Prefer
+      - CARAVAN_DB_CONNECTION=Server=localhost;Port=5432;Database=caravan;User Id=postgres;Password=admin;SslMode=Prefer
       - ASPNETCORE_ENVIRONMENT=Development
     networks:
-      - ticketstore-network
+      - caravan-network
 
   db:
     image: postgres
-    container_name: ticketstore-db
+    container_name: caravan-db
     environment:
-      POSTGRES_DB: ticketstore
+      POSTGRES_DB: caravan
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
     volumes:
@@ -26,11 +26,11 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - ticketstore-network
+      - caravan-network
     restart: unless-stopped
  
 networks:
-  ticketstore-network:
+  caravan-network:
     driver: bridge
 
 volumes:
