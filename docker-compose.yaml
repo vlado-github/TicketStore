@@ -9,7 +9,6 @@ services:
       - "5012:8080"
     restart: always
     environment:
-      - CARAVAN_DB_CONNECTION=Server=localhost;Port=5432;Database=caravan;User Id=postgres;Password=admin;SslMode=Prefer
       - ASPNETCORE_ENVIRONMENT=Development
     networks:
       - caravan-network
