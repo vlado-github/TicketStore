@@ -1,6 +1,6 @@
 # Caravan
 
-Social event platform and free-ticket reservation solution for groups and communities.
+Social event platform for groups and communities.
 
 ## Getting Started
 
